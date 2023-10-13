@@ -1,0 +1,32 @@
+<div class="container">
+    <h2 class="homeTitle">{{ countryName }}</h2>
+    <div class="header">
+        <div class="titleContainer">
+            <span>Number of Entries</span>
+            <span class="number">{{ totalEntries }}</span>
+        </div>
+        <div class="titleContainer">
+            <span>Total Number Medals</span>
+            <span class="number">{{ totalMedals }}</span>
+        </div>
+        <div class="titleContainer">
+            <span>Total Number Athletes</span>
+            <span class="number">{{ totalAthletes }}</span>
+        </div>
+    </div>
+    <ngx-charts-line-chart
+    [animations]="true"
+    [results]="lineChartResults"
+    [view]="view"
+    [xAxis]="true"
+    [yAxis]="true"
+    [showXAxisLabel]="true"
+    [showRefLabels]="true"
+    [showRefLines]="true"
+    [xAxisLabel]="dateLabel"
+    [showGridLines]="true"
+    [autoScale]="true"
+    [roundDomains]="true">
+    </ngx-charts-line-chart>
+    <span class="backHomeButton" routerLink="" routerLinkActive="active">Back to the homepage</span>
+</div>

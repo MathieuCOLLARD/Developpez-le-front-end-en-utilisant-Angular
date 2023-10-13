@@ -4,7 +4,7 @@
     justify-content: center;
     align-items: center;
     height: 100%;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;    
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     .homeTitle {
         font-size : 26px;
         color : white;
@@ -14,8 +14,6 @@
         padding: 4px 16px 4px 16px;
         border-radius: 4px;
         letter-spacing: 2px;
-        justify-content: center;
-        align-items: center;
     }
     text {
         font-size: 24px;
@@ -23,7 +21,7 @@
     .header {
         display: flex;
         flex-direction: row;
-        gap: 75px;
+        gap: 25px;
         padding-bottom: 50px;
         .titleContainer {
             display: flex;
@@ -39,6 +37,21 @@
                 font-weight: bold;
             }
         }
-    }  
+    }
+    
+    .backHomeButton {
+        border: solid 3px #04838f;
+        border-radius: 10px;
+        padding: 10px;
+        cursor: pointer;
+        background-color: #04838f;
+        color: white;
+        transition: 0.3s;
+        margin-top: 25px;
+    }
+    .backHomeButton:hover {
+        background-color: white;
+        color: #04838f;
+        transition: 0.3s;
+    }
 }
-
