@@ -14,19 +14,12 @@
             <span class="number">{{ totalAthletes }}</span>
         </div>
     </div>
-    <ngx-charts-line-chart
-    [animations]="true"
-    [results]="lineChartResults"
-    [view]="view"
-    [xAxis]="true"
-    [yAxis]="true"
-    [showXAxisLabel]="true"
-    [showRefLabels]="true"
-    [showRefLines]="true"
-    [xAxisLabel]="dateLabel"
-    [showGridLines]="true"
-    [autoScale]="true"
-    [roundDomains]="true">
+    <ngx-charts-line-chart (window:resize)="onResize($event)" [animations]="animations" [results]="lineChartResults" [view]="view" [xAxis]="xAxis"
+        [yAxis]="yAxis" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel"
+        [showRefLabels]="showRefLabels" [showRefLines]="showRefLines" [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel" [showGridLines]="showGridLines" [autoScale]="autoScale"
+        [roundDomains]="roundDomains">
     </ngx-charts-line-chart>
+
     <span class="backHomeButton" routerLink="" routerLinkActive="active">Back to the homepage</span>
 </div>
