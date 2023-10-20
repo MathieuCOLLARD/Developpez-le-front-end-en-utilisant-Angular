@@ -19,6 +19,12 @@ export class HomeComponent implements OnInit {
   public totalCountries!: number;
   public showLabels!: boolean
   public totalMedals!: number;
+  public labelFormatting = (value: string) => {
+    if(value == 'United States') {
+      return 'USA'
+    }
+    return value;
+  };
   constructor(private olympicService: OlympicService, private router: Router) { }
 
   ngOnInit(): void {
