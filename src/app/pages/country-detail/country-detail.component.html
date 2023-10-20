@@ -14,12 +14,15 @@
             <span class="number">{{ totalAthletes }}</span>
         </div>
     </div>
-    <ngx-charts-line-chart (window:resize)="onResize($event)" [animations]="animations" [results]="lineChartResults" [view]="view" [xAxis]="xAxis"
-        [yAxis]="yAxis" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel"
-        [showRefLabels]="showRefLabels" [showRefLines]="showRefLines" [xAxisLabel]="xAxisLabel"
-        [yAxisLabel]="yAxisLabel" [showGridLines]="showGridLines" [autoScale]="autoScale"
+    <ngx-charts-line-chart (window:resize)="onResize($event)" [animations]="animations" [results]="lineChartResults"
+        [view]="view" [xAxis]="xAxis" [yAxis]="yAxis" [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel" [showRefLabels]="showRefLabels" [showRefLines]="showRefLines"
+        [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [showGridLines]="showGridLines" [autoScale]="autoScale"
         [roundDomains]="roundDomains">
     </ngx-charts-line-chart>
 
     <span class="backHomeButton" routerLink="" routerLinkActive="active">Back to the homepage</span>
 </div>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-spin-clockwise">
+    <p style="color: white">Loading...</p>
+</ngx-spinner>

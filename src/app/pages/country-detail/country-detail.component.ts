@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { Observable, of } from 'rxjs';
 import { Olympic } from '../../core/models/Olympic';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-country-detail',
@@ -11,12 +12,12 @@ import { Olympic } from '../../core/models/Olympic';
   styleUrls: ['./country-detail.component.scss']
 })
 export class CountryDetailComponent implements OnInit {
-  public olympics$: Observable<any> = of(null);
+  public olympics$!: Observable<Olympic[]>;
   public countryName!: string
   public totalEntries!: number
   public totalMedals!: number
   public totalAthletes!: number
-  public lineChartResults!: [{ name: string; series: [{ name: string; value: number }]}];
+  public lineChartResults!: { name: string; series: { name: number; value: number; }[]; }[];
   public view!: [number, number];
   public showLabels!: boolean;
   public animations!: boolean;
@@ -32,9 +33,10 @@ export class CountryDetailComponent implements OnInit {
   public showGridLines!: boolean;
   public roundDomains!: boolean;
   
-  constructor(private route: ActivatedRoute, private olympicService: OlympicService) { }
+  constructor(private route: ActivatedRoute, private olympicService: OlympicService, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
+    this.spinner.show();
     this.countryName = this.route.snapshot.params['countryName'];
 
     // Set initial values for ngx-charts
@@ -71,7 +73,7 @@ export class CountryDetailComponent implements OnInit {
       );
 
       // Calculate total athletes for each country
-      this.totalAthletes = olympics?.filter((olympic: any) => olympic.country === this.countryName)[0].participations.reduce(
+      this.totalAthletes = olympics?.filter((olympic: Olympic) => olympic.country === this.countryName)[0].participations.reduce(
         (total: number, participation: Participation) => {
           return total + participation.athleteCount;
         },
@@ -91,9 +93,14 @@ export class CountryDetailComponent implements OnInit {
         };
       });
     });
+    setTimeout(() => {
+      /** spinner ends after 5 seconds */
+      this.spinner.hide();
+    }, 1000);
   }
   // Resize chart on window resize
-  onResize(event: any) {
-    this.view = [event.target.innerWidth / 1.1, window.innerHeight / 1.5];
+  onResize(event: Event): void {
+    const target = event.target as Window;
+    this.view = [target.innerWidth / 1.1, target.innerHeight / 1.5];
   }
 }

@@ -1,4 +1,6 @@
+
 <div class="container">
+    <h2 class="homeWelcomeText">Welcome to this application including information concerning the latest Olympic Games. For more information on a country, click on the graph to go to the country detail page</h2>
     <h2 class="homeTitle">Medals per Country</h2>
     <div class="header">
         <div class="titleContainer">
@@ -15,6 +17,8 @@
     [results]="results"
     [view]="view"
     [labels]="showLabels"
+    [maxLabelLength]="maxLabelLength"
     (select)="onSelect($event)" class="pieChart">
+
     </ngx-charts-pie-chart>
 </div>

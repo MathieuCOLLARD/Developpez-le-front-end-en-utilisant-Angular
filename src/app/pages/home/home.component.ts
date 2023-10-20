@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { Olympic } from '../../core/models/Olympic';
 import { Participation } from '../../core/models/Participation';
@@ -11,9 +11,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  public olympics$: Observable<any> = of(null);
+  public olympics$!: Observable<Olympic[]>;
   public view!: [number, number]
-  public results!: [{ name: string; value: number }];
+  public results!: { name: string; value: number; }[];
+  public maxLabelLength!: number;
   public numberOfJO!: number;
   public totalCountries!: number;
   public showLabels!: boolean
@@ -23,7 +24,8 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     // Set initial values for ngx-charts
     this.showLabels = true;
-    this.view = [window.innerWidth / 1.2, 400];
+    this.view = [window.innerWidth / 1.1, window.innerHeight/ 2];
+    this.maxLabelLength = 20;
 
     // Get olympics data
     this.olympics$ = this.olympicService.getOlympics();
@@ -56,12 +58,13 @@ export class HomeComponent implements OnInit {
   }
 
   // Navigate to country page on select
-  onSelect(event: any) {
+  onSelect(event: { name: string; }) {
     this.router.navigateByUrl(`country/${event.name}`);
   }
 
   // Resize chart on window resize
-  onResize(event: any) {
-    this.view = [event.target.innerWidth / 1.1, 400];
+  onResize(event: Event) {
+    const target = event.target as Window;
+    this.view = [target.innerWidth / 1.1, target.innerHeight/ 2];
   }
 }

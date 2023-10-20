@@ -10,10 +10,11 @@ import { CountryDetailComponent } from './pages/country-detail/country-detail.co
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import * as fr from '@angular/common/locales/fr';
 import { registerLocaleData } from '@angular/common';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, NotFoundComponent, CountryDetailComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, NgxChartsModule, BrowserAnimationsModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, NgxChartsModule, BrowserAnimationsModule, NgxSpinnerModule],
   providers: [{ provide: LOCALE_ID, useValue: 'fr-FR'}],
   bootstrap: [AppComponent],
 })
