@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { Olympic } from '../../core/models/Olympic';
 import { Participation } from '../../core/models/Participation';
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   public olympics$!: Observable<Olympic[]>;
   public view!: [number, number]
   public results!: { name: string; value: number; }[];
@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
   public totalCountries!: number;
   public showLabels!: boolean
   public totalMedals!: number;
+  public subcription!: Subscription;
   public labelFormatting = (value: string) => {
     if(value == 'United States') {
       return 'USA'
@@ -37,7 +38,7 @@ export class HomeComponent implements OnInit {
     this.olympics$ = this.olympicService.getOlympics();
 
     // Subscribe to olympics data
-    this.olympics$.subscribe((olympics) => {
+    this.subcription = this.olympics$.subscribe((olympics) => {
       // Map olympics data to results array for ngx-charts
       this.results = olympics?.map((olympic: Olympic) => {
         // Calculate total medals for each olympic
@@ -60,16 +61,22 @@ export class HomeComponent implements OnInit {
         .filter((value: string, index: number, self: string[]) => {
           return self.indexOf(value) === index;
         }).length;
+    }, (error) => {
+      alert(error.message);
     });
+  }
+  
+  ngOnDestroy(): void {
+    this.subcription.unsubscribe();
   }
 
   // Navigate to country page on select
-  onSelect(event: { name: string; }) {
+  onSelect(event: { name: string; }): void {
     this.router.navigateByUrl(`country/${event.name}`);
   }
 
   // Resize chart on window resize
-  onResize(event: Event) {
+  onResize(event: Event): void {
     const target = event.target as Window;
     this.view = [target.innerWidth / 1.1, target.innerHeight/ 2];
   }

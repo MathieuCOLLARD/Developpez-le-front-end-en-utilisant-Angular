@@ -1,17 +1,18 @@
 import { Participation } from './../../core/models/Participation';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { OlympicService } from 'src/app/core/services/olympic.service';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { Olympic } from '../../core/models/Olympic';
 import { NgxSpinnerService } from "ngx-spinner";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-country-detail',
   templateUrl: './country-detail.component.html',
   styleUrls: ['./country-detail.component.scss']
 })
-export class CountryDetailComponent implements OnInit {
+export class CountryDetailComponent implements OnInit, OnDestroy {
   public olympics$!: Observable<Olympic[]>;
   public countryName!: string
   public totalEntries!: number
@@ -32,8 +33,8 @@ export class CountryDetailComponent implements OnInit {
   public showRefLines!: boolean;
   public showGridLines!: boolean;
   public roundDomains!: boolean;
-  
-  constructor(private route: ActivatedRoute, private olympicService: OlympicService, private spinner: NgxSpinnerService) { }
+  public subscription!: Subscription;
+  constructor(private route: ActivatedRoute, private olympicService: OlympicService, private spinner: NgxSpinnerService, private router: Router) { }
 
   ngOnInit(): void {
     this.spinner.show();
@@ -59,10 +60,15 @@ export class CountryDetailComponent implements OnInit {
     this.olympics$ = this.olympicService.getOlympics();
 
     // Subscribe to olympics data
-    this.olympics$.subscribe((olympics) => {
+    this.subscription = this.olympics$.subscribe((olympics) => {
 
+      const olympicByCountry : Olympic[] = olympics?.filter((olympic: Olympic) => olympic.country === this.countryName);
+      if(olympicByCountry.length == 0) {
+        this.router.navigateByUrl('notFound');
+        return;
+      }
       // Calculate total entries for each country
-      this.totalEntries = olympics?.filter((olympic: Olympic) => olympic.country === this.countryName)[0].participations.length;
+      this.totalEntries = olympicByCountry[0].participations.length;
 
       // Calculate total medals for each country
       this.totalMedals = olympics?.filter((olympic: Olympic) => olympic.country === this.countryName)[0].participations.reduce(
@@ -94,9 +100,12 @@ export class CountryDetailComponent implements OnInit {
       });
     });
     setTimeout(() => {
-      /** spinner ends after 5 seconds */
+      /** spinner ends after 1 seconds */
       this.spinner.hide();
     }, 1000);
+  }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
   // Resize chart on window resize
   onResize(event: Event): void {
