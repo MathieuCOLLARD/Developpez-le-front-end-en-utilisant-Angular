@@ -1,18 +1,9 @@
 <div class="container">
     <h2 class="homeTitle">{{ countryName }}</h2>
     <div class="header">
-        <div class="titleContainer">
-            <span>Number of Entries</span>
-            <span class="number">{{ totalEntries }}</span>
-        </div>
-        <div class="titleContainer">
-            <span>Total Number Medals</span>
-            <span class="number">{{ totalMedals }}</span>
-        </div>
-        <div class="titleContainer">
-            <span>Total Number Athletes</span>
-            <span class="number">{{ totalAthletes }}</span>
-        </div>
+        <app-statisticscommon [title]="'Number of Entries'" [detail]="totalEntries"></app-statisticscommon>
+        <app-statisticscommon [title]="'Total Number Medals'" [detail]="totalMedals"></app-statisticscommon>
+        <app-statisticscommon [title]="'Total Number Athletes'" [detail]="totalAthletes"></app-statisticscommon>
     </div>
     <ngx-charts-line-chart (window:resize)="onResize($event)" [animations]="animations" [results]="lineChartResults"
         [view]="view" [xAxis]="xAxis" [yAxis]="yAxis" [showXAxisLabel]="showXAxisLabel"

@@ -11,10 +11,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import * as fr from '@angular/common/locales/fr';
 import { registerLocaleData } from '@angular/common';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, NotFoundComponent, CountryDetailComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, NgxChartsModule, BrowserAnimationsModule, NgxSpinnerModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, NgxChartsModule, BrowserAnimationsModule, NgxSpinnerModule, SharedModule],
   providers: [{ provide: LOCALE_ID, useValue: 'fr-FR'}],
   bootstrap: [AppComponent],
 })

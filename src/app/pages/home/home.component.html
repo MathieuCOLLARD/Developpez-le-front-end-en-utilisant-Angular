@@ -4,14 +4,8 @@
     <h2 class="homeWelcomeText">For more information on a country, click on the graph to go to the country detail page.</h2>
     <h2 class="homeTitle">Medals per Country</h2>
     <div class="header">
-        <div class="titleContainer">
-            <span>Number of JO's</span>
-            <span class="number">{{numberOfJO}}</span>
-        </div>
-        <div class="titleContainer">
-            <span>Number of countries</span>
-            <span class="number">{{totalCountries}}</span>
-        </div>
+        <app-statisticscommon [title]="'Number of JO\'s'" [detail]="numberOfJO"></app-statisticscommon>
+        <app-statisticscommon [title]="'Number of Entries'" [detail]="totalCountries"></app-statisticscommon>
     </div>
     <ngx-charts-pie-chart
     (window:resize)="onResize($event)"
