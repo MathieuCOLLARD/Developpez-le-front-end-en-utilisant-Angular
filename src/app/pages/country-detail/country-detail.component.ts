@@ -5,6 +5,7 @@ import { OlympicService } from 'src/app/core/services/olympic.service';
 import { Observable, of } from 'rxjs';
 import { Olympic } from '../../core/models/Olympic';
 import { NgxSpinnerService } from "ngx-spinner";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-country-detail',
@@ -34,6 +35,7 @@ export class CountryDetailComponent implements OnInit {
   public roundDomains!: boolean;
   
   constructor(private route: ActivatedRoute, private olympicService: OlympicService, private spinner: NgxSpinnerService) { }
+  constructor(private route: ActivatedRoute, private olympicService: OlympicService, private spinner: NgxSpinnerService, private router: Router) { }
 
   ngOnInit(): void {
     this.spinner.show();
@@ -61,8 +63,14 @@ export class CountryDetailComponent implements OnInit {
     // Subscribe to olympics data
     this.olympics$.subscribe((olympics) => {
 
+      const olympicByCountry : Olympic[] = olympics?.filter((olympic: Olympic) => olympic.country === this.countryName);
+      if(olympicByCountry.length == 0) {
+        this.router.navigateByUrl('notFound');
+        return;
+      }
       // Calculate total entries for each country
       this.totalEntries = olympics?.filter((olympic: Olympic) => olympic.country === this.countryName)[0].participations.length;
+      this.totalEntries = olympicByCountry[0].participations.length;
 
       // Calculate total medals for each country
       this.totalMedals = olympics?.filter((olympic: Olympic) => olympic.country === this.countryName)[0].participations.reduce(
